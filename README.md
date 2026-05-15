@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -32,7 +31,7 @@
       <button class="bg-red-600 hover:bg-red-700 px-6 py-3 rounded-xl font-bold transition">
         Sign Up Here
       </button>
-      <button class="bg-white text-red-700 hover:bg-gray-100 px-6 py-3 rounded-xl font-bold transition">
+      <button class="bg-black text-red-700 hover:bg-gray-100 px-6 py-3 rounded-xl font-bold transition">
         Message Us to Reserve a Slot
       </button>
     </div>
@@ -48,7 +47,7 @@
   </h2>
 
   <div class="grid md:grid-cols-2 gap-10">
-    <div class="bg-white p-6 rounded-2xl shadow-md border">
+    <div class="bg-black p-6 rounded-2xl shadow-md border">
       <h3 class="text-xl font-bold text-red-600 mb-4">Requirements</h3>
       <ul class="space-y-2 text-gray-700">
         <li>✔ Age: 16–65 years old</li>
@@ -58,7 +57,7 @@
         <li>✔ Parental consent (if minor)</li>
       </ul>
     </div>
-    <div class="bg-white p-6 rounded-2xl shadow-md border">
+    <div class="bg-black p-6 rounded-2xl shadow-md border">
       <h3 class="text-xl font-bold text-red-600 mb-4">Before Donating</h3>
       <ul class="space-y-2 text-gray-700">
         <li>💤 Get enough sleep</li>
@@ -79,17 +78,17 @@
       Who Does Your Donation Help?
     </h2>
     <div class="grid md:grid-cols-3 gap-6">
-      <div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
+      <div class="bg-black p-6 rounded-2xl shadow hover:shadow-lg transition">
         <div class="text-4xl mb-3">👩‍🍼</div>
         <h3 class="font-bold text-lg mb-2">Mothers in Labor</h3>
         <p class="text-gray-600">Supports safe childbirth during complications.</p>
       </div>
-      <div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
+      <div class="bg-black p-6 rounded-2xl shadow hover:shadow-lg transition">
         <div class="text-4xl mb-3">🏥</div>
         <h3 class="font-bold text-lg mb-2">Surgery Patients</h3>
         <p class="text-gray-600">Essential for emergency and surgical care.</p>
       </div>
-      <div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
+      <div class="bg-black p-6 rounded-2xl shadow hover:shadow-lg transition">
         <div class="text-4xl mb-3">🧒</div>
         <h3 class="font-bold text-lg mb-2">Children with Illnesses</h3>
         <p class="text-gray-600">Helps children needing transfusions.</p>
@@ -106,7 +105,7 @@
   </h2>
 
   <div class="grid md:grid-cols-2 gap-8">
-    <div class="bg-white p-6 rounded-2xl shadow-md border">
+    <div class="bg-black p-6 rounded-2xl shadow-md border">
       <h3 class="text-xl font-bold text-red-600 mb-4">Health Benefits</h3>
       <ul class="space-y-2 text-gray-700">
         <li>🩺 Blood pressure screening</li>
@@ -114,7 +113,7 @@
         <li>🩸 Blood type awareness</li>
       </ul>
     </div>
-    <div class="bg-white p-6 rounded-2xl shadow-md border">
+    <div class="bg-black p-6 rounded-2xl shadow-md border">
       <h3 class="text-xl font-bold text-red-600 mb-4">Appreciation</h3>
       <ul class="space-y-2 text-gray-700">
         <li>🍪 Snacks & refreshments</li>
@@ -137,7 +136,7 @@
     Blood cannot be manufactured — it can only come from generous donors like you.
   </p>
 
-  <div class="bg-white text-gray-900 max-w-xl mx-auto p-8 rounded-2xl shadow-xl">
+  <div class="bg-black text-gray-900 max-w-xl mx-auto p-8 rounded-2xl shadow-xl">
     <h3 class="text-2xl font-bold mb-4 text-red-700">Event Details</h3>
     <p>📅 May 20, 2026</p>
     <p>🕒 12:00 PM – 3:00 PM</p>
