@@ -3,102 +3,45 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Neon Medical HUD - Blood Donation</title>
+<title>Blood Donation Drive - Futuristic UI</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <style>
 body {
-  background: radial-gradient(circle at top, #0a0a0a, #000);
+  background: black;
   color: white;
   overflow-x: hidden;
 }
 
-/* GRID HUD */
+/* GRID BACKGROUND */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(rgba(0,255,150,0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,255,150,0.05) 1px, transparent 1px);
+    linear-gradient(rgba(255,0,60,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,0,60,0.06) 1px, transparent 1px);
   background-size: 40px 40px;
   pointer-events: none;
 }
 
-/* SCANLINE */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: repeating-linear-gradient(
-    to bottom,
-    rgba(255,255,255,0.03),
-    rgba(255,255,255,0.03) 1px,
-    transparent 2px,
-    transparent 4px
-  );
-  pointer-events: none;
-  animation: scan 6s linear infinite;
-}
-
-@keyframes scan {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100%); }
-}
-
 /* NEON TEXT */
 .neon {
-  color: #00ff99;
-  text-shadow: 0 0 5px #00ff99, 0 0 20px #00ff99;
+  text-shadow: 0 0 6px #ff0040, 0 0 20px #ff0040;
+  color: #ff2b5c;
 }
 
-/* GLITCH TITLE */
-.glitch {
-  position: relative;
-  font-weight: 800;
+/* FADE IN */
+.fade {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: 0.8s ease;
 }
-
-.glitch::before,
-.glitch::after {
-  content: "BLOOD DONATION SYSTEM";
-  position: absolute;
-  left: 0;
-  width: 100%;
-  overflow: hidden;
-}
-
-.glitch::before {
-  color: red;
-  animation: glitch 1s infinite linear alternate-reverse;
-}
-
-.glitch::after {
-  color: cyan;
-  animation: glitch 1.3s infinite linear alternate-reverse;
-}
-
-@keyframes glitch {
-  0% { transform: translate(0); }
-  20% { transform: translate(-2px,2px); }
-  40% { transform: translate(2px,-2px); }
-  60% { transform: translate(-1px,1px); }
-  100% { transform: translate(0); }
-}
-
-/* ECG LINE */
-.ecg {
-  height: 2px;
-  background: #00ff99;
-  box-shadow: 0 0 15px #00ff99;
-  animation: pulse 1.2s infinite linear;
-}
-
-@keyframes pulse {
-  0% { transform: scaleX(1); opacity: 0.3; }
-  50% { transform: scaleX(1.05); opacity: 1; }
-  100% { transform: scaleX(1); opacity: 0.3; }
+.fade.show {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* FLOAT BUTTON */
@@ -106,39 +49,18 @@ body::after {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background: #00ff99;
-  color: black;
-  font-weight: bold;
+  background: #ff0040;
+  color: white;
   padding: 14px 18px;
   border-radius: 999px;
-  box-shadow: 0 0 25px #00ff99;
+  box-shadow: 0 0 20px #ff0040;
   cursor: pointer;
-  animation: float 2s infinite;
+  animation: pulse 1.5s infinite;
 }
 
-@keyframes float {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
-/* FADE IN */
-.fade {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: 1s ease;
-}
-
-.fade.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* DATA CARD */
-.card {
-  background: rgba(0,0,0,0.7);
-  border: 1px solid rgba(0,255,150,0.3);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 0 20px rgba(0,255,150,0.1);
+@keyframes pulse {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
 }
 </style>
 </head>
@@ -146,110 +68,142 @@ body::after {
 <body>
 
 <!-- FLOAT BUTTON -->
-<div class="floating" onclick="document.getElementById('register').scrollIntoView({behavior:'smooth'})">
-  ⚡ DONATE
+<div class="floating" onclick="document.getElementById('event').scrollIntoView({behavior:'smooth'})">
+  🩸 Donate
 </div>
 
 <!-- HERO -->
-<section class="text-center py-24 px-6">
+<section class="text-center py-20 px-6 fade show">
 
-  <h1 class="text-4xl md:text-6xl glitch neon">
-    BLOOD DONATION SYSTEM
+  <h1 class="text-4xl md:text-6xl font-extrabold neon">
+    🩸 Blood Donation Drive
   </h1>
 
-  <div class="ecg my-8"></div>
-
-  <p class="text-gray-300 max-w-2xl mx-auto">
-    NEURAL MEDICAL INTERFACE ACTIVE — DONATION NETWORK ONLINE
+  <p class="mt-4 text-gray-300 max-w-2xl mx-auto text-lg">
+    Your blood could be someone’s second chance at life. One donation can help save up to three lives.
   </p>
-</section>
-
-<!-- STATS -->
-<section class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto px-6">
-
-  <div class="card p-6 rounded-2xl text-center fade">
-    <h2 class="text-3xl neon" id="donors">0</h2>
-    <p class="text-gray-400">Active Donors</p>
-  </div>
-
-  <div class="card p-6 rounded-2xl text-center fade">
-    <h2 class="text-3xl neon" id="lives">0</h2>
-    <p class="text-gray-400">Lives Impacted</p>
-  </div>
-
-  <div class="card p-6 rounded-2xl text-center fade">
-    <h2 class="text-3xl neon" id="sessions">0</h2>
-    <p class="text-gray-400">Active Sessions</p>
-  </div>
 
 </section>
 
-<!-- INFO -->
-<section class="max-w-5xl mx-auto px-6 py-20 space-y-10">
+<!-- ELIGIBILITY -->
+<section class="max-w-5xl mx-auto px-6 py-12 fade">
 
-  <div class="card p-8 rounded-2xl fade">
-    <h2 class="text-2xl neon mb-4">SYSTEM ELIGIBILITY CHECK</h2>
-    <ul class="text-gray-300 space-y-2">
-      <li>✔ AGE: 16–65</li>
-      <li>✔ WEIGHT: ≥50KG</li>
-      <li>✔ HEALTH STATUS: STABLE</li>
-    </ul>
+  <h2 class="text-2xl font-bold neon mb-6">Eligibility Check</h2>
+
+  <ul class="space-y-2 text-gray-300">
+    <li>✔ Age: 16–65 years old</li>
+    <li>✔ Minors may need parental consent</li>
+    <li>✔ Weight: At least 50kg (110 lbs)</li>
+    <li>✔ Must be in good general health</li>
+    <li>✔ Bring a valid ID</li>
+  </ul>
+
+  <h3 class="mt-6 text-xl font-semibold text-red-400">Before Donating</h3>
+  <ul class="space-y-2 text-gray-300 mt-2">
+    <li>💤 Get a good night’s sleep</li>
+    <li>🥗 Eat a light meal</li>
+    <li>💧 Stay hydrated</li>
+    <li>❤️ Stay calm</li>
+  </ul>
+
+</section>
+
+<!-- BENEFICIARIES -->
+<section class="bg-black border-t border-b border-red-900 py-14 px-6 fade">
+
+  <h2 class="text-3xl text-center neon mb-10">Who Does Your Donation Help?</h2>
+
+  <div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+
+    <div class="border border-red-900 p-6 rounded-2xl">
+      <h3 class="font-bold">👩‍🍼 Mothers in Labor</h3>
+      <p class="text-gray-400">Helps during childbirth complications.</p>
+    </div>
+
+    <div class="border border-red-900 p-6 rounded-2xl">
+      <h3 class="font-bold">🏥 Surgery Patients</h3>
+      <p class="text-gray-400">Supports emergency operations.</p>
+    </div>
+
+    <div class="border border-red-900 p-6 rounded-2xl">
+      <h3 class="font-bold">🧒 Children with Illnesses</h3>
+      <p class="text-gray-400">Requires life-saving transfusions.</p>
+    </div>
+
   </div>
 
-  <div class="card p-8 rounded-2xl fade">
-    <h2 class="text-2xl neon mb-4">MISSION TARGETS</h2>
-    <p class="text-gray-400">
-      Mothers in labor • Surgical emergencies • Pediatric transfusions
-    </p>
+</section>
+
+<!-- BENEFITS -->
+<section class="max-w-5xl mx-auto px-6 py-12 fade">
+
+  <h2 class="text-2xl neon mb-6">Donor Benefits</h2>
+
+  <div class="grid md:grid-cols-2 gap-6">
+
+    <div class="border border-red-900 p-6 rounded-2xl">
+      <h3 class="font-bold text-red-400">Health Benefits</h3>
+      <ul class="text-gray-300 mt-2 space-y-2">
+        <li>🩺 Blood pressure screening</li>
+        <li>❤️ Hemoglobin check</li>
+        <li>🩸 Blood typing</li>
+      </ul>
+    </div>
+
+    <div class="border border-red-900 p-6 rounded-2xl">
+      <h3 class="font-bold text-red-400">Appreciation</h3>
+      <ul class="text-gray-300 mt-2 space-y-2">
+        <li>🍪 Snacks</li>
+        <li>🎁 Certificates</li>
+        <li>🎟 Tokens</li>
+      </ul>
+    </div>
+
   </div>
+</section>
+
+<!-- EVENT -->
+<section id="event" class="text-center py-14 fade">
+
+  <h2 class="text-3xl neon mb-6">Event Details</h2>
+
+  <p>📅 May 20, 2026</p>
+  <p>🕒 12:00 PM - 3:00 PM</p>
+  <p>📍 National University - Lipa</p>
+
+  <button class="mt-6 bg-red-600 px-6 py-3 rounded-xl font-bold">
+    Register Now
+  </button>
 
 </section>
 
 <!-- QR -->
-<section id="register" class="text-center py-20 fade">
+<section class="text-center py-12 fade">
 
-  <h2 class="text-3xl neon mb-6">SCAN TO REGISTER</h2>
-
+  <h2 class="neon text-2xl mb-4">Scan to Register</h2>
   <div id="qrcode" class="flex justify-center"></div>
 
 </section>
 
 <!-- SCRIPT -->
 <script>
-
 // scroll animation
 const f = document.querySelectorAll('.fade');
-const observer = new IntersectionObserver(e=>{
-  e.forEach(i=>{
-    if(i.isIntersecting) i.target.classList.add('show');
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting) e.target.classList.add('show');
   });
 });
-f.forEach(x=>observer.observe(x));
+f.forEach(el=>observer.observe(el));
 
 // QR
 new QRCode(document.getElementById("qrcode"), {
   text: "https://forms.gle/example",
   width: 180,
   height: 180,
-  colorDark: "#00ff99",
+  colorDark: "#ff0040",
   colorLight: "#000"
 });
-
-// animated counters
-function count(id, end, speed){
-  let el = document.getElementById(id);
-  let i = 0;
-  let interval = setInterval(()=>{
-    i++;
-    el.innerText = i;
-    if(i >= end) clearInterval(interval);
-  }, speed);
-}
-
-count("donors", 120, 10);
-count("lives", 340, 8);
-count("sessions", 55, 30);
-
 </script>
 
 </body>
