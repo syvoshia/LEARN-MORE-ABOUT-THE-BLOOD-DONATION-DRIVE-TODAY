@@ -1,165 +1,256 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Neon Medical HUD - Blood Donation</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<style>
+body {
+  background: radial-gradient(circle at top, #0a0a0a, #000);
+  color: white;
+  overflow-x: hidden;
+}
+
+/* GRID HUD */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,255,150,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,150,0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+/* SCANLINE */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.03),
+    rgba(255,255,255,0.03) 1px,
+    transparent 2px,
+    transparent 4px
+  );
+  pointer-events: none;
+  animation: scan 6s linear infinite;
+}
+
+@keyframes scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+/* NEON TEXT */
+.neon {
+  color: #00ff99;
+  text-shadow: 0 0 5px #00ff99, 0 0 20px #00ff99;
+}
+
+/* GLITCH TITLE */
+.glitch {
+  position: relative;
+  font-weight: 800;
+}
+
+.glitch::before,
+.glitch::after {
+  content: "BLOOD DONATION SYSTEM";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+.glitch::before {
+  color: red;
+  animation: glitch 1s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+  color: cyan;
+  animation: glitch 1.3s infinite linear alternate-reverse;
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px,2px); }
+  40% { transform: translate(2px,-2px); }
+  60% { transform: translate(-1px,1px); }
+  100% { transform: translate(0); }
+}
+
+/* ECG LINE */
+.ecg {
+  height: 2px;
+  background: #00ff99;
+  box-shadow: 0 0 15px #00ff99;
+  animation: pulse 1.2s infinite linear;
+}
+
+@keyframes pulse {
+  0% { transform: scaleX(1); opacity: 0.3; }
+  50% { transform: scaleX(1.05); opacity: 1; }
+  100% { transform: scaleX(1); opacity: 0.3; }
+}
+
+/* FLOAT BUTTON */
+.floating {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #00ff99;
+  color: black;
+  font-weight: bold;
+  padding: 14px 18px;
+  border-radius: 999px;
+  box-shadow: 0 0 25px #00ff99;
+  cursor: pointer;
+  animation: float 2s infinite;
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* FADE IN */
+.fade {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: 1s ease;
+}
+
+.fade.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* DATA CARD */
+.card {
+  background: rgba(0,0,0,0.7);
+  border: 1px solid rgba(0,255,150,0.3);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 20px rgba(0,255,150,0.1);
+}
+</style>
 </head>
 
-<body class="bg-gray-50 text-gray-900 font-sans">
-  
+<body>
+
+<!-- FLOAT BUTTON -->
+<div class="floating" onclick="document.getElementById('register').scrollIntoView({behavior:'smooth'})">
+  ⚡ DONATE
+</div>
+
 <!-- HERO -->
-<section class="relative h-[85vh] flex items-center justify-center text-center text-white">
+<section class="text-center py-24 px-6">
 
-  <!-- Background image -->
-  <div class="absolute inset-0">
-    <img 
-      src="https://images.unsplash.com/photo-1615461066841-6116e61058f4?auto=format&fit=crop&w=1600&q=80"
-      class="w-full h-full object-cover"
-    />
-    <div class="absolute inset-0 bg-black/60"></div>
+  <h1 class="text-4xl md:text-6xl glitch neon">
+    BLOOD DONATION SYSTEM
+  </h1>
+
+  <div class="ecg my-8"></div>
+
+  <p class="text-gray-300 max-w-2xl mx-auto">
+    NEURAL MEDICAL INTERFACE ACTIVE — DONATION NETWORK ONLINE
+  </p>
+</section>
+
+<!-- STATS -->
+<section class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto px-6">
+
+  <div class="card p-6 rounded-2xl text-center fade">
+    <h2 class="text-3xl neon" id="donors">0</h2>
+    <p class="text-gray-400">Active Donors</p>
   </div>
 
-  <!-- Content -->
-  <div class="relative z-10 px-6 max-w-3xl">
-    <h1 class="text-4xl md:text-6xl font-extrabold leading-tight">
-      🩸 Blood Donation Drive
-    </h1>
-    <p class="mt-4 text-lg md:text-xl text-gray-200">
-      Your blood could be someone’s second chance at life.
-      One donation can help save up to three lives.
+  <div class="card p-6 rounded-2xl text-center fade">
+    <h2 class="text-3xl neon" id="lives">0</h2>
+    <p class="text-gray-400">Lives Impacted</p>
+  </div>
+
+  <div class="card p-6 rounded-2xl text-center fade">
+    <h2 class="text-3xl neon" id="sessions">0</h2>
+    <p class="text-gray-400">Active Sessions</p>
+  </div>
+
+</section>
+
+<!-- INFO -->
+<section class="max-w-5xl mx-auto px-6 py-20 space-y-10">
+
+  <div class="card p-8 rounded-2xl fade">
+    <h2 class="text-2xl neon mb-4">SYSTEM ELIGIBILITY CHECK</h2>
+    <ul class="text-gray-300 space-y-2">
+      <li>✔ AGE: 16–65</li>
+      <li>✔ WEIGHT: ≥50KG</li>
+      <li>✔ HEALTH STATUS: STABLE</li>
+    </ul>
+  </div>
+
+  <div class="card p-8 rounded-2xl fade">
+    <h2 class="text-2xl neon mb-4">MISSION TARGETS</h2>
+    <p class="text-gray-400">
+      Mothers in labor • Surgical emergencies • Pediatric transfusions
     </p>
-    <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-      <button class="bg-red-600 hover:bg-red-700 px-6 py-3 rounded-xl font-bold transition">
-        Sign Up Here
-      </button>
-      <button class="bg-black text-red-700 hover:bg-gray-100 px-6 py-3 rounded-xl font-bold transition">
-        Message Us to Reserve a Slot
-      </button>
-    </div>
-
   </div>
+
 </section>
 
-<!-- ELIGIBILITY -->
-<section class="max-w-6xl mx-auto px-6 py-16">
+<!-- QR -->
+<section id="register" class="text-center py-20 fade">
 
-  <h2 class="text-3xl font-bold text-center text-red-700 mb-10">
-    Am I Eligible to Donate?
-  </h2>
+  <h2 class="text-3xl neon mb-6">SCAN TO REGISTER</h2>
 
-  <div class="grid md:grid-cols-2 gap-10">
-    <div class="bg-black p-6 rounded-2xl shadow-md border">
-      <h3 class="text-xl font-bold text-red-600 mb-4">Requirements</h3>
-      <ul class="space-y-2 text-gray-700">
-        <li>✔ Age: 16–65 years old</li>
-        <li>✔ At least 50kg (110 lbs)</li>
-        <li>✔ Good general health</li>
-        <li>✔ Valid ID required</li>
-        <li>✔ Parental consent (if minor)</li>
-      </ul>
-    </div>
-    <div class="bg-black p-6 rounded-2xl shadow-md border">
-      <h3 class="text-xl font-bold text-red-600 mb-4">Before Donating</h3>
-      <ul class="space-y-2 text-gray-700">
-        <li>💤 Get enough sleep</li>
-        <li>🥗 Eat a light meal</li>
-        <li>💧 Stay hydrated</li>
-        <li>❤️ Stay relaxed</li>
-      </ul>
-    </div>
+  <div id="qrcode" class="flex justify-center"></div>
 
-  </div>
 </section>
 
-<!-- BENEFICIARIES -->
-<section class="bg-red-50 py-16 px-6">
+<!-- SCRIPT -->
+<script>
 
-  <div class="max-w-6xl mx-auto">
-    <h2 class="text-3xl font-bold text-center text-red-700 mb-12">
-      Who Does Your Donation Help?
-    </h2>
-    <div class="grid md:grid-cols-3 gap-6">
-      <div class="bg-black p-6 rounded-2xl shadow hover:shadow-lg transition">
-        <div class="text-4xl mb-3">👩‍🍼</div>
-        <h3 class="font-bold text-lg mb-2">Mothers in Labor</h3>
-        <p class="text-gray-600">Supports safe childbirth during complications.</p>
-      </div>
-      <div class="bg-black p-6 rounded-2xl shadow hover:shadow-lg transition">
-        <div class="text-4xl mb-3">🏥</div>
-        <h3 class="font-bold text-lg mb-2">Surgery Patients</h3>
-        <p class="text-gray-600">Essential for emergency and surgical care.</p>
-      </div>
-      <div class="bg-black p-6 rounded-2xl shadow hover:shadow-lg transition">
-        <div class="text-4xl mb-3">🧒</div>
-        <h3 class="font-bold text-lg mb-2">Children with Illnesses</h3>
-        <p class="text-gray-600">Helps children needing transfusions.</p>
-      </div>
-    </div>
-  </div>
-</section>
+// scroll animation
+const f = document.querySelectorAll('.fade');
+const observer = new IntersectionObserver(e=>{
+  e.forEach(i=>{
+    if(i.isIntersecting) i.target.classList.add('show');
+  });
+});
+f.forEach(x=>observer.observe(x));
 
-<!-- BENEFITS -->
-<section class="max-w-6xl mx-auto px-6 py-16">
+// QR
+new QRCode(document.getElementById("qrcode"), {
+  text: "https://forms.gle/example",
+  width: 180,
+  height: 180,
+  colorDark: "#00ff99",
+  colorLight: "#000"
+});
 
-  <h2 class="text-3xl font-bold text-center text-red-700 mb-10">
-    Donor Benefits
-  </h2>
+// animated counters
+function count(id, end, speed){
+  let el = document.getElementById(id);
+  let i = 0;
+  let interval = setInterval(()=>{
+    i++;
+    el.innerText = i;
+    if(i >= end) clearInterval(interval);
+  }, speed);
+}
 
-  <div class="grid md:grid-cols-2 gap-8">
-    <div class="bg-black p-6 rounded-2xl shadow-md border">
-      <h3 class="text-xl font-bold text-red-600 mb-4">Health Benefits</h3>
-      <ul class="space-y-2 text-gray-700">
-        <li>🩺 Blood pressure screening</li>
-        <li>❤️ Hemoglobin check</li>
-        <li>🩸 Blood type awareness</li>
-      </ul>
-    </div>
-    <div class="bg-black p-6 rounded-2xl shadow-md border">
-      <h3 class="text-xl font-bold text-red-600 mb-4">Appreciation</h3>
-      <ul class="space-y-2 text-gray-700">
-        <li>🍪 Snacks & refreshments</li>
-        <li>🎁 Certificates</li>
-        <li>🎟 Tokens & giveaways</li>
-      </ul>
-    </div>
+count("donors", 120, 10);
+count("lives", 340, 8);
+count("sessions", 55, 30);
 
-  </div>
-</section>
-
-<!-- FINAL CTA -->
-<section class="bg-red-700 text-white py-16 px-6 text-center">
-
-  <h2 class="text-4xl font-extrabold mb-4">
-    BE SOMEONE’S LIFELINE
-  </h2>
-
-  <p class="max-w-2xl mx-auto text-lg text-red-100 mb-8">
-    Blood cannot be manufactured — it can only come from generous donors like you.
-  </p>
-
-  <div class="bg-black text-gray-900 max-w-xl mx-auto p-8 rounded-2xl shadow-xl">
-    <h3 class="text-2xl font-bold mb-4 text-red-700">Event Details</h3>
-    <p>📅 May 20, 2026</p>
-    <p>🕒 12:00 PM – 3:00 PM</p>
-    <p>📍 National University - Lipa</p>
-    <button class="mt-6 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-xl font-bold transition w-full">
-      Register Now
-    </button>
-
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="bg-gray-900 text-white text-center py-6 px-4">
-
-  <p class="font-semibold">
-    Organized by National University - Lipa | BS Medical Technology
-  </p>
-
-  <p class="text-gray-400 mt-2">
-    Help save lives — donate blood today 🩸
-  </p>
-
-</footer>
+</script>
 
 </body>
 </html>
