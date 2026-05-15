@@ -3,208 +3,217 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Blood Donation Drive - Futuristic UI</title>
+<title>Blood Donation Drive Information</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <style>
 body {
-  background: black;
-  color: white;
-  overflow-x: hidden;
+  background: #0b0f14;
+  color: #e5e7eb;
 }
 
-/* GRID BACKGROUND */
+/* subtle grid background */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255,0,60,0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,0,60,0.06) 1px, transparent 1px);
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
   background-size: 40px 40px;
   pointer-events: none;
 }
 
-/* NEON TEXT */
-.neon {
-  text-shadow: 0 0 6px #ff0040, 0 0 20px #ff0040;
-  color: #ff2b5c;
+/* cards */
+.card {
+  background: rgba(17, 24, 39, 0.85);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
 }
 
-/* FADE IN */
-.fade {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: 0.8s ease;
-}
-.fade.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* FLOAT BUTTON */
-.floating {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #ff0040;
-  color: white;
-  padding: 14px 18px;
-  border-radius: 999px;
-  box-shadow: 0 0 20px #ff0040;
-  cursor: pointer;
-  animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-  0%,100% { transform: scale(1); }
-  50% { transform: scale(1.08); }
+/* headings */
+h1, h2, h3 {
+  color: #f87171;
 }
 </style>
 </head>
 
 <body>
 
-<!-- FLOAT BUTTON -->
-<div class="floating" onclick="document.getElementById('event').scrollIntoView({behavior:'smooth'})">
-  🩸 Donate
-</div>
-
 <!-- HERO -->
-<section class="text-center py-20 px-6 fade show">
+<section class="text-center py-20 px-6">
 
-  <h1 class="text-4xl md:text-6xl font-extrabold neon">
+  <h1 class="text-4xl md:text-6xl font-extrabold">
     🩸 Blood Donation Drive
   </h1>
 
-  <p class="mt-4 text-gray-300 max-w-2xl mx-auto text-lg">
-    Your blood could be someone’s second chance at life. One donation can help save up to three lives.
+  <p class="mt-6 max-w-2xl mx-auto text-gray-300 text-lg">
+    Donating blood is a safe, simple act that saves lives.
+    One donation can help up to three patients in need.
   </p>
 
 </section>
 
-<!-- ELIGIBILITY -->
-<section class="max-w-5xl mx-auto px-6 py-12 fade">
+<!-- WHY DONATE -->
+<section class="max-w-5xl mx-auto px-6 py-10">
 
-  <h2 class="text-2xl font-bold neon mb-6">Eligibility Check</h2>
-
-  <ul class="space-y-2 text-gray-300">
-    <li>✔ Age: 16–65 years old</li>
-    <li>✔ Minors may need parental consent</li>
-    <li>✔ Weight: At least 50kg (110 lbs)</li>
-    <li>✔ Must be in good general health</li>
-    <li>✔ Bring a valid ID</li>
-  </ul>
-
-  <h3 class="mt-6 text-xl font-semibold text-red-400">Before Donating</h3>
-  <ul class="space-y-2 text-gray-300 mt-2">
-    <li>💤 Get a good night’s sleep</li>
-    <li>🥗 Eat a light meal</li>
-    <li>💧 Stay hydrated</li>
-    <li>❤️ Stay calm</li>
-  </ul>
+  <div class="card p-8">
+    <h2 class="text-2xl font-bold mb-4">Why Blood Donation Matters</h2>
+    <p class="text-gray-300 leading-relaxed">
+      Blood cannot be manufactured. Hospitals rely entirely on voluntary donors
+      to support emergency care, surgeries, trauma cases, and patients with chronic illnesses.
+    </p>
+  </div>
 
 </section>
 
-<!-- BENEFICIARIES -->
-<section class="bg-black border-t border-b border-red-900 py-14 px-6 fade">
+<!-- ELIGIBILITY -->
+<section class="max-w-5xl mx-auto px-6 py-10">
 
-  <h2 class="text-3xl text-center neon mb-10">Who Does Your Donation Help?</h2>
+  <div class="card p-8">
+    <h2 class="text-2xl font-bold mb-6">Donor Eligibility</h2>
 
-  <div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+    <ul class="space-y-3 text-gray-300">
+      <li>✔ Age: 16–65 years old (with parental consent if minor)</li>
+      <li>✔ Weight: at least 50 kg (110 lbs)</li>
+      <li>✔ Must be in good general health</li>
+      <li>✔ No fever, infection, or illness on donation day</li>
+      <li>✔ Must present a valid ID</li>
+    </ul>
 
-    <div class="border border-red-900 p-6 rounded-2xl">
-      <h3 class="font-bold">👩‍🍼 Mothers in Labor</h3>
-      <p class="text-gray-400">Helps during childbirth complications.</p>
-    </div>
+  </div>
 
-    <div class="border border-red-900 p-6 rounded-2xl">
-      <h3 class="font-bold">🏥 Surgery Patients</h3>
-      <p class="text-gray-400">Supports emergency operations.</p>
-    </div>
+</section>
 
-    <div class="border border-red-900 p-6 rounded-2xl">
-      <h3 class="font-bold">🧒 Children with Illnesses</h3>
-      <p class="text-gray-400">Requires life-saving transfusions.</p>
-    </div>
+<!-- BEFORE DONATING -->
+<section class="max-w-5xl mx-auto px-6 py-10">
+
+  <div class="card p-8">
+    <h2 class="text-2xl font-bold mb-6">How to Prepare Before Donation</h2>
+
+    <ul class="space-y-3 text-gray-300">
+      <li>💤 Get at least 6–8 hours of sleep</li>
+      <li>🥗 Eat a healthy meal before donating</li>
+      <li>💧 Drink plenty of water</li>
+      <li>🚫 Avoid alcohol 24 hours before donation</li>
+      <li>💊 Inform staff about any medications</li>
+    </ul>
+
+  </div>
+
+</section>
+
+<!-- PROCESS -->
+<section class="max-w-5xl mx-auto px-6 py-10">
+
+  <div class="card p-8">
+    <h2 class="text-2xl font-bold mb-6">Donation Process</h2>
+
+    <ol class="space-y-3 text-gray-300 list-decimal pl-5">
+      <li>Registration and ID verification</li>
+      <li>Medical screening (blood pressure & hemoglobin check)</li>
+      <li>Donation procedure (about 8–10 minutes)</li>
+      <li>Rest and refreshments after donation</li>
+    </ol>
 
   </div>
 
 </section>
 
 <!-- BENEFITS -->
-<section class="max-w-5xl mx-auto px-6 py-12 fade">
+<section class="max-w-5xl mx-auto px-6 py-10">
 
-  <h2 class="text-2xl neon mb-6">Donor Benefits</h2>
+  <div class="card p-8">
 
-  <div class="grid md:grid-cols-2 gap-6">
+    <h2 class="text-2xl font-bold mb-6">Benefits of Donating Blood</h2>
 
-    <div class="border border-red-900 p-6 rounded-2xl">
-      <h3 class="font-bold text-red-400">Health Benefits</h3>
-      <ul class="text-gray-300 mt-2 space-y-2">
-        <li>🩺 Blood pressure screening</li>
-        <li>❤️ Hemoglobin check</li>
-        <li>🩸 Blood typing</li>
-      </ul>
-    </div>
+    <div class="grid md:grid-cols-2 gap-6">
 
-    <div class="border border-red-900 p-6 rounded-2xl">
-      <h3 class="font-bold text-red-400">Appreciation</h3>
-      <ul class="text-gray-300 mt-2 space-y-2">
-        <li>🍪 Snacks</li>
-        <li>🎁 Certificates</li>
-        <li>🎟 Tokens</li>
-      </ul>
+      <div>
+        <h3 class="font-bold mb-2">Health Benefits</h3>
+        <ul class="text-gray-300 space-y-2">
+          <li>✔ Helps regulate iron levels</li>
+          <li>✔ Stimulates blood cell production</li>
+          <li>✔ Basic health screening included</li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="font-bold mb-2">Emotional Impact</h3>
+        <ul class="text-gray-300 space-y-2">
+          <li>✔ Saves up to 3 lives per donation</li>
+          <li>✔ Supports emergency patients</li>
+          <li>✔ Builds community responsibility</li>
+        </ul>
+      </div>
+
     </div>
 
   </div>
+
+</section>
+
+<!-- WHO IT HELPS -->
+<section class="max-w-5xl mx-auto px-6 py-10">
+
+  <div class="card p-8">
+
+    <h2 class="text-2xl font-bold mb-6">Who Your Donation Helps</h2>
+
+    <ul class="space-y-3 text-gray-300">
+      <li>👩‍🍼 Mothers experiencing childbirth complications</li>
+      <li>🏥 Accident and trauma patients</li>
+      <li>🧒 Children with blood disorders and cancer</li>
+      <li>🧑‍⚕️ Surgery and emergency patients</li>
+    </ul>
+
+  </div>
+
+</section>
+
+<!-- MISCONCEPTIONS -->
+<section class="max-w-5xl mx-auto px-6 py-10">
+
+  <div class="card p-8">
+
+    <h2 class="text-2xl font-bold mb-6">Common Myths vs Facts</h2>
+
+    <ul class="space-y-4 text-gray-300">
+      <li><b class="text-white">Myth:</b> Donating blood is painful  
+          <br><b class="text-green-400">Fact:</b> Only a mild pinch is felt</li>
+
+      <li><b class="text-white">Myth:</b> You become weak permanently  
+          <br><b class="text-green-400">Fact:</b> Your body replenishes blood quickly</li>
+
+      <li><b class="text-white">Myth:</b> It is unsafe  
+          <br><b class="text-green-400">Fact:</b> Sterile, single-use equipment is always used</li>
+    </ul>
+
+  </div>
+
 </section>
 
 <!-- EVENT -->
-<section id="event" class="text-center py-14 fade">
+<section class="text-center py-16 px-6">
 
-  <h2 class="text-3xl neon mb-6">Event Details</h2>
+  <h2 class="text-3xl font-bold">Event Details</h2>
 
-  <p>📅 May 20, 2026</p>
-  <p>🕒 12:00 PM - 3:00 PM</p>
-  <p>📍 National University - Lipa</p>
-
-  <button class="mt-6 bg-red-600 px-6 py-3 rounded-xl font-bold">
-    Register Now
-  </button>
+  <div class="mt-6 text-gray-300 space-y-2">
+    <p>📅 May 20, 2026</p>
+    <p>🕒 12:00 PM – 3:00 PM</p>
+    <p>📍 National University - Lipa</p>
+  </div>
 
 </section>
 
-<!-- QR -->
-<section class="text-center py-12 fade">
+<!-- FOOTER -->
+<footer class="text-center py-8 border-t border-gray-800 text-gray-400">
 
-  <h2 class="neon text-2xl mb-4">Scan to Register</h2>
-  <div id="qrcode" class="flex justify-center"></div>
+  <p>Organized by National University - Lipa | BS Medical Technology</p>
+  <p class="mt-2">Saving lives starts with awareness 🩸</p>
 
-</section>
-
-<!-- SCRIPT -->
-<script>
-// scroll animation
-const f = document.querySelectorAll('.fade');
-const observer = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting) e.target.classList.add('show');
-  });
-});
-f.forEach(el=>observer.observe(el));
-
-// QR
-new QRCode(document.getElementById("qrcode"), {
-  text: "https://forms.gle/example",
-  width: 180,
-  height: 180,
-  colorDark: "#ff0040",
-  colorLight: "#000"
-});
-</script>
+</footer>
 
 </body>
 </html>
